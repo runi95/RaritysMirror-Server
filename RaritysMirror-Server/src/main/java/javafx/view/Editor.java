@@ -38,12 +38,6 @@ public class Editor extends BorderPane implements Initializable{
 	
 	public Editor() {
 		Resources.loadFXML(this);
-		System.out.println(this.getWidth());
-		System.out.println(this.getHeight());
-		canvas.setWidth((this.getWidth() - sliderTable.getWidth()));
-		canvas.setHeight(this.getHeight());
-		System.out.println(canvas.getWidth());
-		System.out.println(canvas.getHeight());
 	}
 
 	public void initialize(URL location, ResourceBundle resources) {
@@ -60,13 +54,11 @@ public class Editor extends BorderPane implements Initializable{
 		gc = canvas.getGraphicsContext2D();
 		
 		this.widthProperty().addListener((ov, oldValue, newValue) -> {
-			System.out.println("Setting width: " + newValue.doubleValue());
-            canvas.setWidth((newValue.doubleValue() - sliderTable.getWidth()));
+            canvas.setWidth((newValue.doubleValue()/2 - sliderTable.getWidth()));
         });
 		
 		this.heightProperty().addListener((ov, oldValue, newValue) -> {
-			System.out.println("Setting Height: " + (newValue.doubleValue() - sliderTable.getHeight()));
-            canvas.setHeight(newValue.doubleValue());
+            canvas.setHeight(newValue.doubleValue()/2);
         });
 		
 		/*

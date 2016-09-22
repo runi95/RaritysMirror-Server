@@ -53,20 +53,6 @@ public class Editor extends BorderPane implements Initializable{
 		// Initialize Canvas
 		gc = canvas.getGraphicsContext2D();
 		
-		this.widthProperty().addListener((ov, oldValue, newValue) -> {
-            canvas.setWidth((newValue.doubleValue()/2 - sliderTable.getWidth()));
-        });
-		
-		this.heightProperty().addListener((ov, oldValue, newValue) -> {
-            canvas.setHeight(newValue.doubleValue()/2);
-        });
-		
-		/*
-		this.prefHeightProperty().addListener((ov, oldValue, newValue) -> {
-            canvas.setHeight((newValue.doubleValue() - sliderTable.getHeight()));
-        });
-		*/
-		
 		canvas.setOnMouseClicked(new EventHandler <MouseEvent>() {
 			public void handle(MouseEvent event) {
 				// TODO: Make sure you can select elements on the canvas!
@@ -77,7 +63,7 @@ public class Editor extends BorderPane implements Initializable{
 	        public void handle(DragEvent event) {
 	            Dragboard db = event.getDragboard();
 //	            System.out.println(db.hasFiles() + " || " + db.hasHtml() + " || " + db.hasImage() + " || " + db.hasRtf() + " || " + db.hasString() + " || " + db.hasUrl());
-	            if(db.hasFiles() || db.hasImage()){
+	            if(db.hasFiles() || db.hasUrl()){
 	                event.acceptTransferModes(TransferMode.ANY);
 	            }
 
@@ -89,24 +75,22 @@ public class Editor extends BorderPane implements Initializable{
 	        public void handle(DragEvent event) {
 	            Dragboard db = event.getDragboard();
 
+	            if(db.hasHtml()) {
+	            	String imageUrl = db.getHtml();
+	            	
+	            	if(imageUrl.startsWith("<img")) {
+	            		imageUrl = imageUrl.substring(imageUrl.indexOf("src=\"") + 5);
+	            		imageUrl = imageUrl.substring(0, imageUrl.indexOf('"'));
+	            		
+	            		drawImage(imageUrl);
+	            	}
+	            }
+	            
 	            if(db.hasFiles()){
 
 	                for(File file:db.getFiles()){
-	                	
-	                    //String absolutePath = file.getAbsolutePath();
 	                    String absolutePath = file.toURI().toString();
-
-	                    Image dbimage = new Image(absolutePath);
-	                    ImageView dbImageView = new ImageView();
-	                    dbImageView.setImage(dbimage);
-
-	                    gc.drawImage(dbimage, 0, 0);
-	                    gc.setStroke(Color.color(0.07, 0.07, 0.56));
-	                    gc.strokeLine(0, 0, 0, dbimage.getHeight());
-	                    gc.strokeLine(0, 0, dbimage.getWidth(), 0);
-	                    gc.strokeLine(dbimage.getWidth(), 0, dbimage.getWidth(), dbimage.getHeight());
-	                    gc.strokeLine(0, dbimage.getHeight(), dbimage.getWidth(), dbimage.getHeight());
-	                    canvas.autosize();
+	                    drawImage(absolutePath);
 	                }
 
 	                event.setDropCompleted(true);
@@ -118,4 +102,17 @@ public class Editor extends BorderPane implements Initializable{
 	    });
 	}
 	
+	private void drawImage(String imageUrl) {
+		Image dbimage = new Image(imageUrl);
+        ImageView dbImageView = new ImageView();
+        dbImageView.setImage(dbimage);
+
+        gc.drawImage(dbimage, 0, 0);
+        gc.setStroke(Color.color(0.07, 0.07, 0.56));
+        gc.strokeLine(0, 0, 0, dbimage.getHeight());
+        gc.strokeLine(0, 0, dbimage.getWidth(), 0);
+        gc.strokeLine(dbimage.getWidth(), 0, dbimage.getWidth(), dbimage.getHeight());
+        gc.strokeLine(0, dbimage.getHeight(), dbimage.getWidth(), dbimage.getHeight());
+        canvas.autosize();
+	}
 }

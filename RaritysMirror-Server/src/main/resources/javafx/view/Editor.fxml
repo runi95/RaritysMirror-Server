@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 
-
-<fx:root type="javafx.scene.layout.BorderPane" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <HBox BorderPane.alignment="CENTER">
-         <children>
-            <VBox>
-               <children>
-                  <TableView fx:id="sliderTable"/>
-               </children>
-            </VBox>
-            <Canvas fx:id="canvas"/>
-         </children>
-      </HBox>
-   </center>
+<fx:root type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+	<center>
+		<HBox BorderPane.alignment="CENTER">
+			<children>
+				<TableView fx:id="sliderTable" />
+            <ScrollPane prefHeight="512.0" prefWidth="768.0">
+               <content>
+      				<Canvas fx:id="canvas" height="1080.0" width="1920.0" />
+               </content>
+            </ScrollPane>
+			</children>
+		</HBox>
+	</center>
 </fx:root>

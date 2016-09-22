@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="javafx.scene.control.TitledPane" animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Rarity's Mirror" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root animated="false" collapsible="false" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Rarity's Mirror" type="javafx.scene.control.TitledPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <center>
@@ -19,7 +19,7 @@
                               <Insets right="4.0" top="4.0" />
                            </padding>
                         </Label>
-                        <Button mnemonicParsing="false" text="Open Editor" />
+                        <Button mnemonicParsing="false" onAction="#openEditorClicked" text="Open Editor" />
                      </children>
                   </HBox>
                   <TitledPane animated="false" collapsible="false" text="Server">
@@ -40,7 +40,7 @@
                                        </padding>
                                     </Label>
                                     <TextField promptText="Select File..." />
-                                    <Button mnemonicParsing="false" text="..." />
+                                    <Button mnemonicParsing="false" onAction="#loadClicked" text="..." />
                                  </children>
                               </HBox>
                               <HBox>
@@ -60,7 +60,7 @@
                                           <Insets right="4.0" top="2.0" />
                                        </padding>
                                     </Label>
-                                    <CheckBox mnemonicParsing="false" />
+                                    <CheckBox mnemonicParsing="false" onAction="#localhostChecked" />
                                     <Hyperlink text="?">
                                        <padding>
                                           <Insets bottom="2.0" />
@@ -68,7 +68,7 @@
                                     </Hyperlink>
                                  </children>
                               </HBox>
-                              <Button mnemonicParsing="false" text="Start Server" />
+                              <Button mnemonicParsing="false" onAction="#startServerClicked" text="Start Server" />
                            </children>
                         </VBox>
                      </content>

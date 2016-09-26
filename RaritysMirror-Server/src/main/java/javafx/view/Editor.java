@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.model.CanvasObject;
+import javafx.model.CanvasObjectList;
 import javafx.model.Slide;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -34,7 +35,7 @@ public class Editor extends BorderPane implements Initializable {
 	ObservableList<Slide> sliderList = FXCollections.observableArrayList();
 	GraphicsContext gc;
 
-	CanvasObject co = null;
+	CanvasObjectList canvasList = new CanvasObjectList();
 	CanvasObject selected = null;
 
 	@FXML
@@ -63,11 +64,11 @@ public class Editor extends BorderPane implements Initializable {
 			public void handle(MouseEvent event) {
 				// TODO: Make sure you can select elements on the canvas!
 //				drawString("The Quick Brown Fox Jumped The White Fence", event.getX(), event.getY(), true);
-				if(co == null)
+				if(canvasList.getList().isEmpty())
 					return;
 				
 				double x = event.getX(), y = event.getY();
-				selected = co.selectFirstInHitbox(x, y);
+				selected = canvasList.selectFirstInHitbox(x, y);
 				draw();
 			}
 		});
@@ -130,33 +131,27 @@ public class Editor extends BorderPane implements Initializable {
 	}
 
 	private void addImage(Image img) {
-		CanvasObject c = new CanvasObject(img, 0, 0);
+		CanvasObject c = new CanvasObject(0, 0, img);
 		
-		if(co == null)
-			co = c;
-		else
-			co.add(c);
+		canvasList.getList().add(c);
 		
 		selected = c;
-		co.deselectAllBut(c);
+		canvasList.deselectAllBut(c);
 		draw();
 	}
 	
 	private void draw() {
-		if (co == null)
+		if (canvasList.getList().isEmpty())
 			return;
 
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		CanvasObject c = co;
-		while (c != null) {
-			if (c.getNode() instanceof Image)
-				drawImage((Image) c.getNode(), c.getX(), c.getY(), c.isSelected());
+		for (CanvasObject c : canvasList.getList()) {
+			if (c.getImage() != null)
+				drawImage((Image) c.getImage(), c.getX(), c.getY(), c.isSelected());
 			
-			if (c.getNode() instanceof String) {
-				drawString((String) c.getNode(), c.getX(), c.getY(), c.getSize(), c.isSelected());
+			if (c.getText() != null) {
+				drawString((String) c.getText(), c.getX(), c.getY(), c.getSize(), c.isSelected());
 			}
-			
-			c = c.next();
 		}
 	}
 	

@@ -222,6 +222,7 @@ public class Editor extends BorderPane implements Initializable {
 	
 	private void addSlide() {
 		slideList.add(new Slide("Slide #" + (slideList.size() + 1)));
+		sliderTable.getSelectionModel().select(slideList.get(slideList.size()));
 	}
 	
 	private void removeSlide() {

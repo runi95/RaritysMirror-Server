@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.canvas.Canvas?>
+<?import javafx.view.CustomCanvas?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -14,7 +14,7 @@
    <center>
       <ScrollPane fx:id="scroll" fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
          <content>
-				<Canvas fx:id="canvas" height="1080.0" width="1920.0" />
+				<CustomCanvas fx:id="canvas" height="1080.0" width="1920.0" />
          </content>
       </ScrollPane>
    </center>

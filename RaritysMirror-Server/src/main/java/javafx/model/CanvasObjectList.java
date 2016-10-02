@@ -6,12 +6,14 @@ import java.util.LinkedList;
 public class CanvasObjectList {
 
 	private LinkedList<CanvasObject> list = new LinkedList<>();
+	private CanvasObject selected = null;
 
 	public CanvasObjectList() {
 		// Create empty list.
 	}
 
 	public void deselectAllBut(CanvasObject co) {
+		selected = co;
 		for (CanvasObject c : list) {
 			if (c.equals(co))
 				c.setSelected(true);
@@ -35,6 +37,14 @@ public class CanvasObjectList {
 		return ret;
 	}
 
+	public CanvasObject getSelected() {
+		return selected;
+	}
+	
+	public void setSelected(CanvasObject selected) {
+		this.selected = selected;
+	}
+	
 	public LinkedList<CanvasObject> getList() {
 		return list;
 	}

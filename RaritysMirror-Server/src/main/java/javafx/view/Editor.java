@@ -23,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
@@ -36,7 +37,9 @@ import javafx.scene.text.Font;
 
 public class Editor extends BorderPane implements Initializable {
 
-	ObservableList<Slide> sliderList = FXCollections.observableArrayList();
+	public final static Image ADD_SLIDE_SELECTED = new Image("javafx/view/images/AddSlide-Selected.png"), ADD_SLIDE_UNSELECTED = new Image("javafx/view/images/AddSlide-Unselected.png"), REMOVE_SLIDE_SELECTED = new Image("javafx/view/images/RemoveSlide-Selected.png"), REMOVE_SLIDE_UNSELECTED = new Image("javafx/view/images/RemoveSlide-Unselected.png");
+	
+	ObservableList<Slide> slideList = FXCollections.observableArrayList();
 	GraphicsContext gc;
 
 	CanvasObjectList canvasList = new CanvasObjectList();
@@ -48,6 +51,8 @@ public class Editor extends BorderPane implements Initializable {
 	ScrollPane scroll;
 	@FXML
 	Canvas canvas;
+	@FXML
+	ImageView addSlideImageView, removeSlideImageView;
 
 	public Editor() {
 		Resources.loadFXML(this);
@@ -61,7 +66,7 @@ public class Editor extends BorderPane implements Initializable {
 
 		sliderTable.getColumns().add(nameColumn);
 
-		sliderTable.setItems(sliderList);
+		sliderTable.setItems(slideList);
 
 		// Initialize Canvas
 		gc = canvas.getGraphicsContext2D();
@@ -213,5 +218,37 @@ public class Editor extends BorderPane implements Initializable {
 		gc.fillArc(posX - 3, posY + height - 3, 6, 6, 0, 360, ArcType.ROUND);
 		gc.fillArc(posX + width - 3, posY - 3, 6, 6, 0, 360, ArcType.ROUND);
 		gc.fillArc(posX + width - 3, posY + height - 3, 6, 6, 0, 360, ArcType.ROUND);
+	}
+	
+	private void addSlide() {
+		slideList.add(new Slide("Slide #" + (slideList.size() + 1)));
+	}
+	
+	private void removeSlide() {
+		slideList.removeAll(sliderTable.getSelectionModel().getSelectedItems());
+	}
+	
+	public void addSlideButtonClicked() {
+		addSlide();
+	}
+	
+	public void addSlideButtonEntered() {
+		addSlideImageView.setImage(ADD_SLIDE_SELECTED);
+	}
+	
+	public void addSlideButtonExited() {
+		addSlideImageView.setImage(ADD_SLIDE_UNSELECTED);
+	}
+	
+	public void removeSlideButtonClicked() {
+		removeSlide();
+	}
+	
+	public void removeSlideButtonEntered() {
+		removeSlideImageView.setImage(REMOVE_SLIDE_SELECTED);
+	}
+	
+	public void removeSlideButtonExited() {
+		removeSlideImageView.setImage(REMOVE_SLIDE_UNSELECTED);
 	}
 }

@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.Resources;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -16,13 +18,15 @@ import javafx.model.Slide;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
@@ -40,6 +44,8 @@ public class Editor extends BorderPane implements Initializable {
 
 	@FXML
 	TableView<Slide> sliderTable;
+	@FXML
+	ScrollPane scroll;
 	@FXML
 	Canvas canvas;
 
@@ -59,8 +65,26 @@ public class Editor extends BorderPane implements Initializable {
 
 		// Initialize Canvas
 		gc = canvas.getGraphicsContext2D();
+		
+		scroll.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if(newValue)
+					canvas.requestFocus();
+			}
+		});
+		
+		canvas.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event) {
+				if(event.getCode() == KeyCode.DELETE) {
+					canvasList.getList().remove(selected);
+					selected = null;
+					draw();
+				}
+			}
+		});
 
-		canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				// TODO: Make sure you can select elements on the canvas!
 //				drawString("The Quick Brown Fox Jumped The White Fence", event.getX(), event.getY(), true);
@@ -69,6 +93,11 @@ public class Editor extends BorderPane implements Initializable {
 				
 				double x = event.getX(), y = event.getY();
 				selected = canvasList.selectFirstInHitbox(x, y);
+				
+				if(selected != null) {
+					selected.setSelectedX(x - selected.getX());
+					selected.setSelectedY(y - selected.getY());
+				}
 				draw();
 			}
 		});
@@ -77,8 +106,8 @@ public class Editor extends BorderPane implements Initializable {
 			public void handle(MouseEvent event) {
 				if(selected != null) {
 					double x = event.getX(), y = event.getY();
-					selected.setX(x);
-					selected.setY(y);
+					selected.setX(x - selected.getSelectedX());
+					selected.setY(y - selected.getSelectedY());
 					draw();
 				}
 			}
@@ -141,10 +170,11 @@ public class Editor extends BorderPane implements Initializable {
 	}
 	
 	private void draw() {
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		
 		if (canvasList.getList().isEmpty())
 			return;
 
-		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for (CanvasObject c : canvasList.getList()) {
 			if (c.getImage() != null)
 				drawImage((Image) c.getImage(), c.getX(), c.getY(), c.isSelected());

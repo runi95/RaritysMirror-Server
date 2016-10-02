@@ -10,8 +10,8 @@
 	<center>
 		<HBox BorderPane.alignment="CENTER">
 			<children>
-				<TableView fx:id="sliderTable" />
-            <ScrollPane prefHeight="512.0" prefWidth="768.0">
+				<TableView fx:id="sliderTable"/>
+            <ScrollPane fx:id="scroll" prefHeight="512.0" prefWidth="768.0">
                <content>
       				<Canvas fx:id="canvas" height="1080.0" width="1920.0" />
                </content>

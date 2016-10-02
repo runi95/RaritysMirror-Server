@@ -1,5 +1,6 @@
 package javafx.model;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class CanvasObjectList {
@@ -21,19 +22,17 @@ public class CanvasObjectList {
 
 	public CanvasObject selectFirstInHitbox(double x, double y) {
 		CanvasObject ret = null;
-		for (CanvasObject c : list)
-			ret = hitboxLoop(c, x, y);
+		Iterator<CanvasObject> iterator = list.descendingIterator();
+		
+		while(iterator.hasNext() && ret == null) {
+			CanvasObject c = iterator.next();
+			if(c.hitboxCheck(x, y))
+				ret = c;
+		}
 
-		if (ret != null)
-			deselectAllBut(ret);
+		deselectAllBut(ret);
+
 		return ret;
-	}
-
-	public CanvasObject hitboxLoop(CanvasObject c, double x, double y) {
-		if (c.hitboxCheck(x, y))
-			return c;
-		else
-			return null;
 	}
 
 	public LinkedList<CanvasObject> getList() {

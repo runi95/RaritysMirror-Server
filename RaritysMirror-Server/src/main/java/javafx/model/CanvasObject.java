@@ -3,7 +3,7 @@ package javafx.model;
 import javafx.scene.image.Image;
 
 public class CanvasObject {
-	private double x, y, width, height;
+	private double x, y, width, height, selectedX, selectedY;
 	private int size;
 	private boolean selected;
 	private Image img = null;
@@ -32,6 +32,14 @@ public class CanvasObject {
 		return (((x > this.x) && (y > this.y)) && ((x < (this.x + width)) && (y < (this.y + height))));
 	}
 	
+	public void setSelectedX(double selectedX) {
+		this.selectedX = selectedX;
+	}
+	
+	public void setSelectedY(double selectedY) {
+		this.selectedY = selectedY;
+	}
+	
 	public void setX(double x) {
 		this.x = x;
 	}
@@ -42,6 +50,14 @@ public class CanvasObject {
 	
 	public void setSelected(boolean b) {
 		selected = b;
+	}
+	
+	public double getSelectedX() {
+		return selectedX;
+	}
+	
+	public double getSelectedY() {
+		return selectedY;
 	}
 	
 	public double getSize() {

@@ -82,7 +82,8 @@ public class Editor extends BorderPane implements Initializable {
 	}
 	
 	private void removeSlide() {
-		slideList.removeAll(sliderTable.getSelectionModel().getSelectedItems());
+		if(slideList.size() > 1)
+			slideList.remove(sliderTable.getSelectionModel().getSelectedItem());
 	}
 	
 	public void addSlideButtonClicked() {

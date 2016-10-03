@@ -10,38 +10,48 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <ScrollPane fx:id="scroll" fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
-         <content>
+<fx:root type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.65"
+	xmlns:fx="http://javafx.com/fxml/1">
+	<center>
+		<ScrollPane fx:id="scroll" fitToHeight="true" fitToWidth="true"
+			BorderPane.alignment="CENTER">
+			<content>
 				<CustomCanvas fx:id="canvas" height="1080.0" width="1920.0" />
-         </content>
-      </ScrollPane>
-   </center>
-   <left>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <HBox>
-               <children>
-                  <ImageView fx:id="addSlideImageView" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#addSlideButtonClicked" onMouseEntered="#addSlideButtonEntered" onMouseExited="#addSlideButtonExited" pickOnBounds="true" preserveRatio="true" smooth="false">
-                     <image>
-                        <Image url="@images/AddSlide-Unselected.png" />
-                     </image></ImageView>
-                     <ImageView fx:id="removeSlideImageView" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#removeSlideButtonClicked" onMouseEntered="#removeSlideButtonEntered" onMouseExited="#removeSlideButtonExited" pickOnBounds="true" preserveRatio="true" smooth="false">
-                     <image>
-                        <Image url="@images/RemoveSlide-Unselected.png" />
-                     </image></ImageView>
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
-      				<TableView fx:id="sliderTable">
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
-         </children>
-      </VBox>
-   </left>
+			</content>
+		</ScrollPane>
+	</center>
+	<left>
+		<VBox BorderPane.alignment="CENTER">
+			<children>
+				<HBox>
+					<children>
+						<ImageView fx:id="addSlideImageView" fitHeight="24.0"
+							fitWidth="24.0" onMouseClicked="#addSlideButtonClicked"
+							onMouseEntered="#addSlideButtonEntered" onMouseExited="#addSlideButtonExited"
+							pickOnBounds="true" preserveRatio="true" smooth="false">
+							<image>
+								<Image url="@images/AddSlide-Unselected.png" />
+							</image>
+						</ImageView>
+						<ImageView fx:id="removeSlideImageView" fitHeight="24.0"
+							fitWidth="24.0" onMouseClicked="#removeSlideButtonClicked"
+							onMouseEntered="#removeSlideButtonEntered" onMouseExited="#removeSlideButtonExited"
+							pickOnBounds="true" preserveRatio="true" smooth="false">
+							<image>
+								<Image url="@images/RemoveSlide-Unselected.png" />
+							</image>
+						</ImageView>
+					</children>
+					<padding>
+						<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+					</padding>
+				</HBox>
+				<TableView fx:id="sliderTable">
+					<columnResizePolicy>
+						<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+					</columnResizePolicy>
+				</TableView>
+			</children>
+		</VBox>
+	</left>
 </fx:root>

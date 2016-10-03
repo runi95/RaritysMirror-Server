@@ -13,12 +13,39 @@
 <fx:root type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.65"
 	xmlns:fx="http://javafx.com/fxml/1">
 	<center>
-		<ScrollPane fx:id="scroll" fitToHeight="true" fitToWidth="true"
-			BorderPane.alignment="CENTER">
-			<content>
-				<CustomCanvas fx:id="canvas" height="1080.0" width="1920.0" />
-			</content>
-		</ScrollPane>
+		<VBox BorderPane.alignment="CENTER">
+			<children>
+				<HBox>
+					<children>
+						<ImageView fx:id="addImageImageView" fitHeight="24.0"
+							fitWidth="24.0" onMouseClicked="#addImageButtonClicked"
+							onMouseEntered="#addImageButtonEntered" onMouseExited="#addImageButtonExited"
+							pickOnBounds="true" preserveRatio="true" smooth="false">
+							<image>
+								<Image url="@images/AddImage-Unselected.png" />
+							</image>
+						</ImageView>
+						<ImageView fx:id="addTextImageView" fitHeight="24.0"
+							fitWidth="24.0" onMouseClicked="#addTextButtonClicked"
+							onMouseEntered="#addTextButtonEntered" onMouseExited="#addTextButtonExited"
+							pickOnBounds="true" preserveRatio="true" smooth="false">
+							<image>
+								<Image url="@images/AddText-Unselected.png" />
+							</image>
+						</ImageView>
+					</children>
+					<padding>
+						<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+					</padding>
+				</HBox>
+				<ScrollPane fx:id="scroll" fitToHeight="true" fitToWidth="true"
+					BorderPane.alignment="CENTER">
+					<content>
+						<CustomCanvas fx:id="canvas" height="1080.0" width="1920.0" />
+					</content>
+				</ScrollPane>
+			</children>
+		</VBox>
 	</center>
 	<left>
 		<VBox BorderPane.alignment="CENTER">

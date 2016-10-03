@@ -25,7 +25,7 @@ import javafx.scene.layout.BorderPane;
 
 public class Editor extends BorderPane implements Initializable {
 
-	public final static Image ADD_SLIDE_SELECTED = new Image("javafx/view/images/AddSlide-Selected.png"), ADD_SLIDE_UNSELECTED = new Image("javafx/view/images/AddSlide-Unselected.png"), REMOVE_SLIDE_SELECTED = new Image("javafx/view/images/RemoveSlide-Selected.png"), REMOVE_SLIDE_UNSELECTED = new Image("javafx/view/images/RemoveSlide-Unselected.png");
+	public final static Image ADD_SLIDE_SELECTED = new Image("javafx/view/images/AddSlide-Selected.png"), ADD_SLIDE_UNSELECTED = new Image("javafx/view/images/AddSlide-Unselected.png"), REMOVE_SLIDE_SELECTED = new Image("javafx/view/images/RemoveSlide-Selected.png"), REMOVE_SLIDE_UNSELECTED = new Image("javafx/view/images/RemoveSlide-Unselected.png"), ADD_IMAGE_SELECTED = new Image("javafx/view/images/AddImage-Selected.png"), ADD_IMAGE_UNSELECTED = new Image("javafx/view/images/AddImage-Unselected.png"), ADD_TEXT_SELECTED = new Image("javafx/view/images/AddText-Selected.png"), ADD_TEXT_UNSELECTED = new Image("javafx/view/images/AddText-Unselected.png");
 	
 	ObservableList<Slide> slideList = FXCollections.observableArrayList();
 	GraphicsContext gc;
@@ -40,7 +40,7 @@ public class Editor extends BorderPane implements Initializable {
 	@FXML
 	CustomCanvas canvas;
 	@FXML
-	ImageView addSlideImageView, removeSlideImageView;
+	ImageView addSlideImageView, removeSlideImageView, addImageImageView, addTextImageView;
 
 	public Editor() {
 		Resources.loadFXML(this);
@@ -84,6 +84,30 @@ public class Editor extends BorderPane implements Initializable {
 	private void removeSlide() {
 		if(slideList.size() > 1)
 			slideList.remove(sliderTable.getSelectionModel().getSelectedItem());
+	}
+	
+	public void addTextButtonClicked() {
+		
+	}
+	
+	public void addTextButtonEntered() {
+		addTextImageView.setImage(ADD_TEXT_SELECTED);
+	}
+	
+	public void addTextButtonExited() {
+		addTextImageView.setImage(ADD_TEXT_UNSELECTED);
+	}
+	
+	public void addImageButtonClicked() {
+		
+	}
+	
+	public void addImageButtonEntered() {
+		addImageImageView.setImage(ADD_IMAGE_SELECTED);
+	}
+	
+	public void addImageButtonExited() {
+		addImageImageView.setImage(ADD_IMAGE_UNSELECTED);
 	}
 	
 	public void addSlideButtonClicked() {

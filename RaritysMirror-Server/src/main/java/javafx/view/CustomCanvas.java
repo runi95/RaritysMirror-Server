@@ -24,17 +24,33 @@ public class CustomCanvas extends Canvas {
 	public CustomCanvas() {
 		setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
+				CanvasObject selectedObject = currentSlide.getSelected();
+				
+				if(selectedObject == null)
+					return;
+				
 				if(event.getCode() == KeyCode.DELETE) {
-					currentSlide.getList().remove(currentSlide.getSelected());
+					currentSlide.getList().remove(selectedObject);
+					draw();
+				}else if(selectedObject.getText() != null) {
+					if(event.getCode() == KeyCode.RIGHT|| event.getCode() == KeyCode.KP_RIGHT)
+						selectedObject.movePointer(true);
+					else if(event.getCode() == KeyCode.LEFT || event.getCode() == KeyCode.KP_LEFT)
+						selectedObject.movePointer(false);
+					else if(event.getCode() == KeyCode.BACK_SPACE)
+						selectedObject.removeChar(selectedObject.getText().length() - 1);
+					else if(event.getCode().isLetterKey() || event.getCode().isDigitKey())
+						selectedObject.appendText(event.getText());
+					
 					draw();
 				}
+				
+				event.consume();
 			}
 		});
 
 		setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
-				// TODO: Make sure you can select elements on the canvas!
-//				drawString("The Quick Brown Fox Jumped The White Fence", event.getX(), event.getY(), true);
 				if(currentSlide.getList().isEmpty())
 					return;
 				
@@ -116,7 +132,18 @@ public class CustomCanvas extends Canvas {
 		return currentSlide;
 	}
 	
-	private void addImage(Image img) {
+	public void addText(String text) {
+		CanvasObject c = new CanvasObject(0, 0, text, 20);
+		
+		currentSlide.getList().add(c);
+		
+		currentSlide.deselectAllBut(c);
+		draw();
+		
+		requestFocus();
+	}
+	
+	public void addImage(Image img) {
 		CanvasObject c = new CanvasObject(0, 0, img);
 		
 		currentSlide.getList().add(c);
@@ -136,15 +163,17 @@ public class CustomCanvas extends Canvas {
 				drawImage((Image) c.getImage(), c.getX(), c.getY(), c.isSelected());
 			
 			if (c.getText() != null) {
-				drawString((String) c.getText(), c.getX(), c.getY(), c.getSize(), c.isSelected());
+				drawString((String) c.getText(), c.getX(), c.getY(), c.getSize(), c.getPointerPosition(), c.isSelected());
 			}
 		}
 	}
 	
-	private void drawString(String s, double x, double y, double size, boolean select) {
+	private void drawString(String s, double x, double y, double size, int pointer, boolean select) {
 		getGraphicsContext2D().setFont(new Font(size));
 		getGraphicsContext2D().setStroke(Color.color(0.0, 0.0, 0.0));
 		getGraphicsContext2D().strokeText(s, x, y + getGraphicsContext2D().getFont().getSize());
+		
+		getGraphicsContext2D().strokeLine(pointer*(size/2), y, pointer*(size/2), y + size);
 		
 		if(select)
 			drawSelected(x, y, s.length()*(size/2), size);

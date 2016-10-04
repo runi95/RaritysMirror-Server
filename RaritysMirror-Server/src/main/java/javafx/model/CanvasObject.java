@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 public class CanvasObject {
 	private double x, y, width, height, selectedX, selectedY;
-	private int size;
+	private int size, pointerPosition;
 	private boolean selected;
 	private Image img = null;
 	private String s = null;
@@ -28,8 +28,29 @@ public class CanvasObject {
 		height = size;
 	}
 	
-	public boolean hitboxCheck(double x, double y) {
-		return (((x > this.x) && (y > this.y)) && ((x < (this.x + width)) && (y < (this.y + height))));
+	public void appendText(String c) {
+		if(s == null)
+			return;
+		
+		s += c;
+		width = s.length() * (size / 2);
+		height = size;
+		movePointer(true);
+	}
+	
+	public void movePointer(boolean b) {
+		if(b)
+			setPointerPosition(Math.min(s.length(), ++pointerPosition));
+		else
+			setPointerPosition(Math.max(0, --pointerPosition));
+	}
+	
+	public void removeChar(int index) {
+		if(index < 0 || index >= s.length())
+			return;
+		
+		s = s.substring(0, index) + s.substring(index + 1, s.length());
+		movePointer(false);
 	}
 	
 	public void setSelectedX(double selectedX) {
@@ -50,6 +71,14 @@ public class CanvasObject {
 	
 	public void setSelected(boolean b) {
 		selected = b;
+	}
+	
+	public boolean hitboxCheck(double x, double y) {
+		return (((x > this.x) && (y > this.y)) && ((x < (this.x + width)) && (y < (this.y + height))));
+	}
+	
+	public int getPointerPosition() {
+		return pointerPosition;
 	}
 	
 	public double getSelectedX() {
@@ -90,5 +119,9 @@ public class CanvasObject {
 
 	public String getText() {
 		return s;
+	}
+	
+	private void setPointerPosition(int i) {
+		pointerPosition = i;
 	}
 }

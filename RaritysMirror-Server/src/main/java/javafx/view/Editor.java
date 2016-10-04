@@ -1,5 +1,6 @@
 package javafx.view;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -10,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.model.CanvasObject;
 import javafx.model.CanvasObjectList;
 import javafx.model.Slide;
 import javafx.scene.canvas.GraphicsContext;
@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 
 public class Editor extends BorderPane implements Initializable {
 
@@ -31,7 +32,7 @@ public class Editor extends BorderPane implements Initializable {
 	GraphicsContext gc;
 
 	CanvasObjectList canvasList = new CanvasObjectList();
-	CanvasObject selected = null;
+//	CanvasObject selected = null;
 
 	@FXML
 	TableView<Slide> sliderTable;
@@ -87,7 +88,7 @@ public class Editor extends BorderPane implements Initializable {
 	}
 	
 	public void addTextButtonClicked() {
-		
+		canvas.addText("");
 	}
 	
 	public void addTextButtonEntered() {
@@ -99,7 +100,19 @@ public class Editor extends BorderPane implements Initializable {
 	}
 	
 	public void addImageButtonClicked() {
-		
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Add Image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Images", "*.bmp", "*.jpeg", "*.jpe", "*.jfif", "*.jpg", "*.png" ),
+                new FileChooser.ExtensionFilter("JPG", "*.jpg", "*.jpeg", "*.jpe", "*.jfif"),
+                new FileChooser.ExtensionFilter("PNG", "*.png")
+            );
+		File file =	fileChooser.showOpenDialog(getScene().getWindow());
+		if(file != null) {
+			Image image = new Image(file.toURI().toString());
+			canvas.addImage(image);
+		}
+			
 	}
 	
 	public void addImageButtonEntered() {

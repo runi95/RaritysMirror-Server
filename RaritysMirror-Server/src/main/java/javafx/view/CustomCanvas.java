@@ -101,10 +101,11 @@ public class CustomCanvas extends Canvas {
 					if (imageUrl.startsWith("<img")) {
 						imageUrl = imageUrl.substring(imageUrl.indexOf("src=\"") + 5);
 						imageUrl = imageUrl.substring(0, imageUrl.indexOf('"'));
-						Image dbimage = new Image(imageUrl);
-
-						addImage(dbimage);
 					}
+					
+					Image dbimage = new Image(imageUrl);
+
+					addImage(dbimage);
 				}else if (db.hasFiles()) {
 
 					for (File file : db.getFiles()) {

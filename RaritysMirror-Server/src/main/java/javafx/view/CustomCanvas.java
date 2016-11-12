@@ -201,7 +201,6 @@ public class CustomCanvas extends Canvas {
 		
 		if(select)
 			drawSelected(x, y, dbimage.getWidth(), dbimage.getHeight());
-			
 	}
 	
 	private void drawSelected(double posX, double posY, double width, double height) {

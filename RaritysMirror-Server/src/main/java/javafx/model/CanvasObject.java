@@ -39,7 +39,7 @@ public class CanvasObject {
 		if(s == null)
 			return;
 		
-		s += c;
+		s = s.substring(0, pointerPosition) + c + s.substring(pointerPosition);
 		
 		Text t = new Text(s);
 		t.setFont(font);
@@ -89,6 +89,10 @@ public class CanvasObject {
 		selected = b;
 	}
 	
+	public void setFont (Font font) {
+		this.font = font;
+	}
+	
 	public boolean hitboxCheck(double x, double y) {
 		return (((x > this.x) && (y > this.y)) && ((x < (this.x + width)) && (y < (this.y + height))));
 	}
@@ -135,6 +139,10 @@ public class CanvasObject {
 
 	public String getText() {
 		return s;
+	}
+	
+	public Font getFont() {
+		return font;
 	}
 	
 	private void setPointerPosition(int i) {

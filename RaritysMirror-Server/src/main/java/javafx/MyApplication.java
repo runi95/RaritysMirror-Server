@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.view.Editor;
-import javafx.view.Startup;
 
 public class MyApplication extends Application {
 

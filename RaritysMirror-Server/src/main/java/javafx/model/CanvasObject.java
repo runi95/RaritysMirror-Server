@@ -1,6 +1,8 @@
 package javafx.model;
 
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class CanvasObject {
 	private double x, y, width, height, selectedX, selectedY;
@@ -8,6 +10,7 @@ public class CanvasObject {
 	private boolean selected;
 	private Image img = null;
 	private String s = null;
+	private Font font = null;
 
 	public CanvasObject(double x, double y, Image img) {
 		this.x = x;
@@ -18,14 +21,18 @@ public class CanvasObject {
 		height = img.getHeight();
 	}
 
-	public CanvasObject(double x, double y, String s, int size) {
+	public CanvasObject(double x, double y, String s, Font font, int size) {
 		this.x = x;
 		this.y = y;
 		this.s = s;
 		this.size = size;
+		this.font = font;
 		
-		width = s.length() * (size / 2);
-		height = size;
+		Text t = new Text(s);
+		t.setFont(font);
+		
+		width = t.getLayoutBounds().getWidth();
+		height = t.getLayoutBounds().getHeight();
 	}
 	
 	public void appendText(String c) {
@@ -33,8 +40,12 @@ public class CanvasObject {
 			return;
 		
 		s += c;
-		width = s.length() * (size / 2);
-		height = size;
+		
+		Text t = new Text(s);
+		t.setFont(font);
+		
+		width = t.getLayoutBounds().getWidth();
+		height = t.getLayoutBounds().getHeight();
 		movePointer(true);
 	}
 	
@@ -50,6 +61,11 @@ public class CanvasObject {
 			return;
 		
 		s = s.substring(0, index) + s.substring(index + 1, s.length());
+		Text t = new Text(s);
+		t.setFont(font);
+		
+		width = t.getLayoutBounds().getWidth();
+		height = t.getLayoutBounds().getHeight();
 		movePointer(false);
 	}
 	

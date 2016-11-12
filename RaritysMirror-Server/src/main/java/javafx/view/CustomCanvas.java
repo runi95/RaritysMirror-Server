@@ -16,6 +16,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class CustomCanvas extends Canvas {
 	
@@ -38,8 +39,8 @@ public class CustomCanvas extends Canvas {
 					else if(event.getCode() == KeyCode.LEFT || event.getCode() == KeyCode.KP_LEFT)
 						selectedObject.movePointer(false);
 					else if(event.getCode() == KeyCode.BACK_SPACE)
-						selectedObject.removeChar(selectedObject.getText().length() - 1);
-					else if(event.getCode().isLetterKey() || event.getCode().isDigitKey())
+						selectedObject.removeChar(selectedObject.getPointerPosition() - 1);
+					else if(event.getCode().isLetterKey() || event.getCode().isDigitKey() || event.getCode().isWhitespaceKey())
 						selectedObject.appendText(event.getText());
 					
 					draw();
@@ -125,8 +126,14 @@ public class CustomCanvas extends Canvas {
 				event.consume();
 			}
 		});
+		
+		getGraphicsContext2D().setFont(new Font(12));
 	}
 
+	public Font getFont() {
+		return getGraphicsContext2D().getFont();
+	}
+	
 	public void setCurrentSlide(CanvasObjectList currentSlide) {
 		this.currentSlide = currentSlide;
 		draw();
@@ -137,7 +144,8 @@ public class CustomCanvas extends Canvas {
 	}
 	
 	public void addText(String text) {
-		CanvasObject c = new CanvasObject(0, 0, text, 20);
+		getGraphicsContext2D().setFont(new Font(20)); // TODO: Remove quickfix
+		CanvasObject c = new CanvasObject(0, 0, text, getGraphicsContext2D().getFont(), 20);
 		
 		currentSlide.getList().add(c);
 		
@@ -167,20 +175,25 @@ public class CustomCanvas extends Canvas {
 				drawImage((Image) c.getImage(), c.getX(), c.getY(), c.isSelected());
 			
 			if (c.getText() != null) {
-				drawString((String) c.getText(), c.getX(), c.getY(), c.getSize(), c.getPointerPosition(), c.isSelected());
+				drawString((String) c.getText(), c.getX(), c.getY(), c.getSize(), c.getWidth(), c.getHeight(), c.getPointerPosition(), c.isSelected());
 			}
 		}
 	}
 	
-	private void drawString(String s, double x, double y, double size, int pointer, boolean select) {
+	private void drawString(String s, double x, double y, double size, double width, double height, int pointer, boolean select) {
 		getGraphicsContext2D().setFont(new Font(size));
 		getGraphicsContext2D().setStroke(Color.color(0.0, 0.0, 0.0));
 		getGraphicsContext2D().strokeText(s, x, y + getGraphicsContext2D().getFont().getSize());
 		
-		getGraphicsContext2D().strokeLine(pointer*(size/2), y, pointer*(size/2), y + size);
+		Text t = new Text(s.substring(0,pointer));
+		t.setFont(getGraphicsContext2D().getFont());
+		double width2 = t.getLayoutBounds().getWidth();
 		
-		if(select)
-			drawSelected(x, y, s.length()*(size/2), size);
+		getGraphicsContext2D().strokeLine(x + width2, y, x + width2, y + height);
+		
+		if(select) {
+			drawSelected(x, y, width, height);
+		}
 	}
 
 	private void drawImage(Image dbimage, double x, double y, boolean select) {

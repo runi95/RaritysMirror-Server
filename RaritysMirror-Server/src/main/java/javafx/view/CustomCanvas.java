@@ -40,6 +40,8 @@ public class CustomCanvas extends Canvas {
 						selectedObject.movePointer(false);
 					else if(event.getCode() == KeyCode.BACK_SPACE)
 						selectedObject.removeChar(selectedObject.getPointerPosition() - 1);
+					else if (event.getCode() == KeyCode.ENTER)
+						currentSlide.deselectAllBut(null);
 					else if(event.getCode().isLetterKey() || event.getCode().isDigitKey() || event.getCode().isWhitespaceKey())
 						selectedObject.appendText(event.getText());
 					
@@ -185,13 +187,13 @@ public class CustomCanvas extends Canvas {
 		getGraphicsContext2D().setStroke(Color.color(0.0, 0.0, 0.0));
 		getGraphicsContext2D().strokeText(s, x, y + getGraphicsContext2D().getFont().getSize());
 		
-		Text t = new Text(s.substring(0,pointer));
-		t.setFont(getGraphicsContext2D().getFont());
-		double width2 = t.getLayoutBounds().getWidth();
-		
-		getGraphicsContext2D().strokeLine(x + width2, y, x + width2, y + height);
-		
 		if(select) {
+			Text t = new Text(s.substring(0,pointer));
+			t.setFont(getGraphicsContext2D().getFont());
+			double width2 = t.getLayoutBounds().getWidth();
+			
+			getGraphicsContext2D().strokeLine(x + width2, y, x + width2, y + height);
+			
 			drawSelected(x, y, width, height);
 		}
 	}

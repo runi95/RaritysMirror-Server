@@ -34,8 +34,8 @@
 								<Image url="@images/AddText-Unselected.png" />
 							</image>
 						</ImageView>
-						<ComboBox fx:id="fontComboBox" visible="True" promptText="Font" onAction="#fontComboBox"/>
-						<ComboBox fx:id="fontSizeComboBox" visible="True" editable="True" prefWidth="150.0" promptText="Size" onAction="#fontComboBox"/>
+						<ComboBox fx:id="fontComboBox" visible="False" promptText="Font" onAction="#fontComboBox"/>
+						<ComboBox fx:id="fontSizeComboBox" visible="False" editable="True" prefWidth="150.0" promptText="Size" onAction="#fontComboBox"/>
 					</children>
 					<padding>
 						<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

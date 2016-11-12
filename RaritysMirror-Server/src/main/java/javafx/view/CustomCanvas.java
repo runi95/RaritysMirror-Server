@@ -2,6 +2,7 @@ package javafx.view;
 
 import java.io.File;
 
+import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.model.CanvasObject;
 import javafx.model.CanvasObjectList;
@@ -128,6 +129,10 @@ public class CustomCanvas extends Canvas {
 		getGraphicsContext2D().setFont(new Font(font, fontSize));
 	}
 
+	public void addListener(ChangeListener<CanvasObject> listener) {
+		currentSlide.addListener(listener);
+	}
+	
 	public Font getFont() {
 		return getGraphicsContext2D().getFont();
 	}

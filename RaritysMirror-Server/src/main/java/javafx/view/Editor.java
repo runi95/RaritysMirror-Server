@@ -11,8 +11,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.model.CanvasObject;
 import javafx.model.CanvasObjectList;
 import javafx.model.Slide;
+import javafx.model.TextObject;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -88,6 +90,21 @@ public class Editor extends BorderPane implements Initializable {
 		fontComboBox.setValue(Font.getDefault().getName());
 		fontSizeComboBox.setItems(fontSizeList);
 		fontSizeComboBox.setValue("20");
+		
+		canvas.addListener(new ChangeListener<CanvasObject>() {
+			@Override
+			public void changed(ObservableValue<? extends CanvasObject> observable, CanvasObject oldValue,
+					CanvasObject newValue) {
+				if(newValue != null && newValue instanceof TextObject) {
+					fontSizeComboBox.setVisible(true);
+					fontComboBox.setVisible(true);
+				}else{
+					fontSizeComboBox.setVisible(false);
+					fontComboBox.setVisible(false);
+				}
+					
+			}
+		});
 	}
 
 	private void addSlide() {

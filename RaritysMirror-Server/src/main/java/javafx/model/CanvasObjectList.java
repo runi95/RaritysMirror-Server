@@ -16,9 +16,9 @@ public class CanvasObjectList {
 		selected = co;
 		for (CanvasObject c : list) {
 			if (c.equals(co))
-				c.setSelected(true);
+				c.select();
 			else
-				c.setSelected(false);
+				c.deselect();
 		}
 	}
 
@@ -31,13 +31,16 @@ public class CanvasObjectList {
 			if(c.hitboxCheck(x, y))
 				ret = c;
 		}
-
+		
 		deselectAllBut(ret);
 
 		return ret;
 	}
 
 	public CanvasObject getSelected() {
+		if(selected != null && !selected.isSelected())
+			selected = null;
+		
 		return selected;
 	}
 	

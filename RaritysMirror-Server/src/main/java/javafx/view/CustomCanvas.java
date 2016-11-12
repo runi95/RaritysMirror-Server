@@ -5,6 +5,8 @@ import java.io.File;
 import javafx.event.EventHandler;
 import javafx.model.CanvasObject;
 import javafx.model.CanvasObjectList;
+import javafx.model.ImageObject;
+import javafx.model.TextObject;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.input.DragEvent;
@@ -13,42 +15,33 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class CustomCanvas extends Canvas {
 	
 	CanvasObjectList currentSlide;
+	String font;
+	int fontSize;
 	
 	public CustomCanvas() {
 		setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
+				if(currentSlide.getList().isEmpty())
+					return;
+				
 				CanvasObject selectedObject = currentSlide.getSelected();
 				
 				if(selectedObject == null)
 					return;
 				
-				if(event.getCode() == KeyCode.DELETE) {
+				if(event.getCode() == KeyCode.DELETE)
 					currentSlide.getList().remove(selectedObject);
-					draw();
-				}else if(selectedObject.getText() != null) {
-					if(event.getCode() == KeyCode.RIGHT|| event.getCode() == KeyCode.KP_RIGHT)
-						selectedObject.movePointer(true);
-					else if(event.getCode() == KeyCode.LEFT || event.getCode() == KeyCode.KP_LEFT)
-						selectedObject.movePointer(false);
-					else if(event.getCode() == KeyCode.BACK_SPACE)
-						selectedObject.removeChar(selectedObject.getPointerPosition() - 1);
-					else if (event.getCode() == KeyCode.ENTER)
-						currentSlide.deselectAllBut(null);
-					else if(event.getCode().isLetterKey() || event.getCode().isDigitKey() || event.getCode().isWhitespaceKey())
-						selectedObject.appendText(event.getText());
-					
-					draw();
-				}
+				else
+					selectedObject.keyPressed(event);
 				
 				event.consume();
+				
+				draw();
 			}
 		});
 
@@ -61,9 +54,10 @@ public class CustomCanvas extends Canvas {
 				CanvasObject selected = currentSlide.selectFirstInHitbox(x, y);
 				
 				if(selected != null) {
-					selected.setSelectedX(x - selected.getX());
-					selected.setSelectedY(y - selected.getY());
+					selected.mousePressed(x, y);
 				}
+				
+				event.consume();
 				draw();
 			}
 		});
@@ -73,8 +67,8 @@ public class CustomCanvas extends Canvas {
 				CanvasObject selected = currentSlide.getSelected();
 				if(selected != null) {
 					double x = event.getX(), y = event.getY();
-					selected.setX(x - selected.getSelectedX());
-					selected.setY(y - selected.getSelectedY());
+					selected.mouseDragged(x, y);
+					event.consume();
 					draw();
 				}
 			}
@@ -129,7 +123,9 @@ public class CustomCanvas extends Canvas {
 			}
 		});
 		
-		getGraphicsContext2D().setFont(new Font(12));
+		font = Font.getDefault().getName();
+		fontSize = 20;
+		getGraphicsContext2D().setFont(new Font(font, fontSize));
 	}
 
 	public Font getFont() {
@@ -145,9 +141,8 @@ public class CustomCanvas extends Canvas {
 		return currentSlide;
 	}
 	
-	public void addText(String text) {
-		getGraphicsContext2D().setFont(new Font(20)); // TODO: Remove quickfix
-		CanvasObject c = new CanvasObject(0, 0, text, getGraphicsContext2D().getFont(), 20);
+	public void addText(String text, String font, int fontSize) {
+		CanvasObject c = new TextObject(getGraphicsContext2D(), 0, 0, text, font, fontSize);
 		
 		currentSlide.getList().add(c);
 		
@@ -158,12 +153,17 @@ public class CustomCanvas extends Canvas {
 	}
 	
 	public void addImage(Image img) {
-		CanvasObject c = new CanvasObject(0, 0, img);
+		CanvasObject c = new ImageObject(getGraphicsContext2D(), 0, 0, img);
 		
 		currentSlide.getList().add(c);
 		
 		currentSlide.deselectAllBut(c);
 		draw();
+	}
+	
+	public void setFont(String font, int fontSize) {
+		if(currentSlide.getSelected() != null && currentSlide.getSelected() instanceof TextObject)
+			((TextObject)currentSlide.getSelected()).setFont(new Font(font, fontSize));
 	}
 	
 	private void draw() {
@@ -172,49 +172,7 @@ public class CustomCanvas extends Canvas {
 		if (currentSlide.getList().isEmpty())
 			return;
 
-		for (CanvasObject c : currentSlide.getList()) {
-			if (c.getImage() != null)
-				drawImage((Image) c.getImage(), c.getX(), c.getY(), c.isSelected());
-			
-			if (c.getText() != null) {
-				drawString((String) c.getText(), c.getX(), c.getY(), c.getSize(), c.getWidth(), c.getHeight(), c.getPointerPosition(), c.isSelected());
-			}
-		}
-	}
-	
-	private void drawString(String s, double x, double y, double size, double width, double height, int pointer, boolean select) {
-		getGraphicsContext2D().setFont(new Font(size));
-		getGraphicsContext2D().setStroke(Color.color(0.0, 0.0, 0.0));
-		getGraphicsContext2D().strokeText(s, x, y + getGraphicsContext2D().getFont().getSize());
-		
-		if(select) {
-			Text t = new Text(s.substring(0,pointer));
-			t.setFont(getGraphicsContext2D().getFont());
-			double width2 = t.getLayoutBounds().getWidth();
-			
-			getGraphicsContext2D().strokeLine(x + width2, y, x + width2, y + height);
-			
-			drawSelected(x, y, width, height);
-		}
-	}
-
-	private void drawImage(Image dbimage, double x, double y, boolean select) {
-		getGraphicsContext2D().drawImage(dbimage, x, y);
-		
-		if(select)
-			drawSelected(x, y, dbimage.getWidth(), dbimage.getHeight());
-	}
-	
-	private void drawSelected(double posX, double posY, double width, double height) {
-		getGraphicsContext2D().setStroke(Color.color(0.1, 0.40, 0.8));
-		getGraphicsContext2D().strokeLine(posX, posY, posX + width, posY);
-		getGraphicsContext2D().strokeLine(posX, posY, posX, posY + height);
-		getGraphicsContext2D().strokeLine(posX + width, posY + height, posX, posY + height);
-		getGraphicsContext2D().strokeLine(posX + width, posY + height, posX + width, posY);
-		getGraphicsContext2D().setFill(Color.color(0.2, 0.6, 0.9));
-		getGraphicsContext2D().fillArc(posX - 3, posY - 3, 6, 6, 0, 360, ArcType.ROUND);
-		getGraphicsContext2D().fillArc(posX - 3, posY + height - 3, 6, 6, 0, 360, ArcType.ROUND);
-		getGraphicsContext2D().fillArc(posX + width - 3, posY - 3, 6, 6, 0, 360, ArcType.ROUND);
-		getGraphicsContext2D().fillArc(posX + width - 3, posY + height - 3, 6, 6, 0, 360, ArcType.ROUND);
+		for(CanvasObject c : currentSlide.getList())
+			c.draw();
 	}
 }

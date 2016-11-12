@@ -1,151 +1,31 @@
 package javafx.model;
 
-import javafx.scene.image.Image;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.scene.input.KeyEvent;
 
 public class CanvasObject {
-	private double x, y, width, height, selectedX, selectedY;
-	private int size, pointerPosition;
+	private double x, y, width, height, clickX, clickY;
 	private boolean selected;
-	private Image img = null;
-	private String s = null;
-	private Font font = null;
-
-	public CanvasObject(double x, double y, Image img) {
-		this.x = x;
-		this.y = y;
-		this.img = img;
-		
-		width = img.getWidth();
-		height = img.getHeight();
-	}
-
-	public CanvasObject(double x, double y, String s, Font font, int size) {
-		this.x = x;
-		this.y = y;
-		this.s = s;
-		this.size = size;
-		this.font = font;
-		
-		Text t = new Text(s);
-		t.setFont(font);
-		
-		width = t.getLayoutBounds().getWidth();
-		height = t.getLayoutBounds().getHeight();
-	}
 	
-	public void appendText(String c) {
-		if(s == null)
-			return;
-		
-		s = s.substring(0, pointerPosition) + c + s.substring(pointerPosition);
-		
-		Text t = new Text(s);
-		t.setFont(font);
-		
-		width = t.getLayoutBounds().getWidth();
-		height = t.getLayoutBounds().getHeight();
-		movePointer(true);
-	}
+	public void draw() { }
+	public boolean hitboxCheck(double x, double y) { return (((x > this.x) && (y > this.y)) && ((x < (this.x + getWidth())) && (y < (this.y + getHeight())))); }
 	
-	public void movePointer(boolean b) {
-		if(b)
-			setPointerPosition(Math.min(s.length(), ++pointerPosition));
-		else
-			setPointerPosition(Math.max(0, --pointerPosition));
-	}
+	public void moveTo(double x, double y) { this.x = x; this.y = y; }
+	public void setX(double x) { this.x = x; }
+	public void setY(double y) { this.y = y; }
+	public void setWidth(double width) { this.width = width; }
+	public void setHeight(double height) { this.height = height; }
+	public void select() { selected = true; }
+	public void deselect() { selected = false; }
 	
-	public void removeChar(int index) {
-		if(index < 0 || index >= s.length())
-			return;
-		
-		s = s.substring(0, index) + s.substring(index + 1, s.length());
-		Text t = new Text(s);
-		t.setFont(font);
-		
-		width = t.getLayoutBounds().getWidth();
-		height = t.getLayoutBounds().getHeight();
-		movePointer(false);
-	}
+	public double getWidth() { return width; }
+	public double getHeight() { return height; }
+	public double getX() { return x; }
+	public double getY() { return y; }
+	public double getClickX() { return clickX; }
+	public double getClickY() { return clickY; }
+	public boolean isSelected() { return selected; }
 	
-	public void setSelectedX(double selectedX) {
-		this.selectedX = selectedX;
-	}
-	
-	public void setSelectedY(double selectedY) {
-		this.selectedY = selectedY;
-	}
-	
-	public void setX(double x) {
-		this.x = x;
-	}
-	
-	public void setY(double y) {
-		this.y = y;
-	}
-	
-	public void setSelected(boolean b) {
-		selected = b;
-	}
-	
-	public void setFont (Font font) {
-		this.font = font;
-	}
-	
-	public boolean hitboxCheck(double x, double y) {
-		return (((x > this.x) && (y > this.y)) && ((x < (this.x + width)) && (y < (this.y + height))));
-	}
-	
-	public int getPointerPosition() {
-		return pointerPosition;
-	}
-	
-	public double getSelectedX() {
-		return selectedX;
-	}
-	
-	public double getSelectedY() {
-		return selectedY;
-	}
-	
-	public double getSize() {
-		return size;
-	}
-	
-	public boolean isSelected() {
-		return selected;
-	}
-	
-	public double getWidth() {
-		return width;
-	}
-	
-	public double getHeight() {
-		return height;
-	}
-	
-	public double getX() {
-		return x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public Image getImage() {
-		return img;
-	}
-
-	public String getText() {
-		return s;
-	}
-	
-	public Font getFont() {
-		return font;
-	}
-	
-	private void setPointerPosition(int i) {
-		pointerPosition = i;
-	}
+	public void keyPressed(KeyEvent keyevent) { }
+	public void mousePressed(double x, double y) { clickX = x - getX(); clickY = y - getY(); }
+	public void mouseDragged(double x, double y) { setX(x - getClickX()); setY(y - getClickY()); }
 }

@@ -13,7 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.model.CanvasObjectList;
 import javafx.model.Slide;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
 public class Editor extends BorderPane implements Initializable {
@@ -29,7 +30,8 @@ public class Editor extends BorderPane implements Initializable {
 	public final static Image ADD_SLIDE_SELECTED = new Image("javafx/view/images/AddSlide-Selected.png"), ADD_SLIDE_UNSELECTED = new Image("javafx/view/images/AddSlide-Unselected.png"), REMOVE_SLIDE_SELECTED = new Image("javafx/view/images/RemoveSlide-Selected.png"), REMOVE_SLIDE_UNSELECTED = new Image("javafx/view/images/RemoveSlide-Unselected.png"), ADD_IMAGE_SELECTED = new Image("javafx/view/images/AddImage-Selected.png"), ADD_IMAGE_UNSELECTED = new Image("javafx/view/images/AddImage-Unselected.png"), ADD_TEXT_SELECTED = new Image("javafx/view/images/AddText-Selected.png"), ADD_TEXT_UNSELECTED = new Image("javafx/view/images/AddText-Unselected.png");
 	
 	ObservableList<Slide> slideList = FXCollections.observableArrayList();
-	GraphicsContext gc;
+	ObservableList<String> fontList = FXCollections.observableArrayList();
+	ObservableList<String> fontSizeList = FXCollections.observableArrayList();
 
 	CanvasObjectList canvasList = new CanvasObjectList();
 //	CanvasObject selected = null;
@@ -42,6 +44,10 @@ public class Editor extends BorderPane implements Initializable {
 	CustomCanvas canvas;
 	@FXML
 	ImageView addSlideImageView, removeSlideImageView, addImageImageView, addTextImageView;
+	@FXML
+	ComboBox<String> fontComboBox;
+	@FXML
+	ComboBox<String> fontSizeComboBox;
 
 	public Editor() {
 		Resources.loadFXML(this);
@@ -75,6 +81,13 @@ public class Editor extends BorderPane implements Initializable {
 					canvas.requestFocus();
 			}
 		});
+		
+		fontList.addAll(Font.getFamilies());
+		fontSizeList.addAll("10", "12", "15", "20", "30");
+		fontComboBox.setItems(fontList);
+		fontComboBox.setValue(Font.getDefault().getName());
+		fontSizeComboBox.setItems(fontSizeList);
+		fontSizeComboBox.setValue("20");
 	}
 
 	private void addSlide() {
@@ -88,7 +101,7 @@ public class Editor extends BorderPane implements Initializable {
 	}
 	
 	public void addTextButtonClicked() {
-		canvas.addText("");
+		canvas.addText("", fontComboBox.getValue(), getFontSizeInteger());
 	}
 	
 	public void addTextButtonEntered() {
@@ -113,6 +126,10 @@ public class Editor extends BorderPane implements Initializable {
 			canvas.addImage(image);
 		}
 			
+	}
+	
+	public void fontComboBox() {
+		canvas.setFont(fontComboBox.getValue(), getFontSizeInteger());
 	}
 	
 	public void addImageButtonEntered() {
@@ -145,5 +162,14 @@ public class Editor extends BorderPane implements Initializable {
 	
 	public void removeSlideButtonExited() {
 		removeSlideImageView.setImage(REMOVE_SLIDE_UNSELECTED);
+	}
+	
+	private int getFontSizeInteger() {
+		try {
+			return Integer.parseInt(fontSizeComboBox.getValue());
+		}catch (NumberFormatException e) {
+			fontSizeComboBox.setValue("20");
+			return 20;
+		}
 	}
 }

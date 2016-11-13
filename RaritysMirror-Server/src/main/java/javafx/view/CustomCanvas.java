@@ -56,6 +56,7 @@ public class CustomCanvas extends Canvas {
 				
 				if(selected != null) {
 					selected.mousePressed(x, y);
+					requestFocus();
 				}
 				
 				event.consume();
@@ -167,8 +168,10 @@ public class CustomCanvas extends Canvas {
 	}
 	
 	public void setFont(String font, int fontSize) {
-		if(currentSlide.getSelected() != null && currentSlide.getSelected() instanceof TextObject)
+		if(currentSlide.getSelected() != null && currentSlide.getSelected() instanceof TextObject) {
 			((TextObject)currentSlide.getSelected()).setFont(new Font(font, fontSize));
+			draw();
+		}
 	}
 	
 	private void draw() {

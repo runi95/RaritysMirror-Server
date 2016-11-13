@@ -51,4 +51,9 @@ public class CanvasObject {
 		getGraphics().fillArc(posX + width - 3, posY - 3, ARC_RADIUS, ARC_RADIUS, 0, 360, ArcType.ROUND);
 		getGraphics().fillArc(posX + width - 3, posY + height - 3, ARC_RADIUS, ARC_RADIUS, 0, 360, ArcType.ROUND);
 	}
+	
+	@Override
+	public String toString() {
+		return this.getClass().getName() + " (" + getX() + "," + getY() + ")";
+	}
 }

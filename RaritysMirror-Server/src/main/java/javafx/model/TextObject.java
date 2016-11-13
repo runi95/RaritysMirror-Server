@@ -98,4 +98,13 @@ public class TextObject extends CanvasObject {
 		if(i <= text.length() && i >= 0)
 			pointerPosition = i;
 	}
+	
+	public Color getColor() {
+		return Color.BLACK;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + " f(" + font.getName() + "," + font.getSize() + ") c(" + getColor() + ")";
+	}
 }

@@ -4,7 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -13,11 +12,10 @@ public class TextObject extends CanvasObject {
 	private String text;
 	private Font font;
 	private int pointerPosition;
-	private GraphicsContext gc;
 	
-	public TextObject(GraphicsContext gc, double x, double y, String text) { this.gc = gc; setX(x); setY(y); this.text = text; font = Font.getDefault(); }
-	public TextObject(GraphicsContext gc, double x, double y, String text, Font font) { this.gc = gc; setX(x); setY(y); this.text = text; this.font = font; }
-	public TextObject(GraphicsContext gc, double x, double y, String text, String fontName, int fontSize) { this.gc = gc; setX(x); setY(y); this.text = text; font = new Font(fontName, fontSize); }
+	public TextObject(GraphicsContext gc, double x, double y, String text) { super(gc); setX(x); setY(y); this.text = text; font = Font.getDefault(); }
+	public TextObject(GraphicsContext gc, double x, double y, String text, Font font) { super(gc); setX(x); setY(y); this.text = text; this.font = font; }
+	public TextObject(GraphicsContext gc, double x, double y, String text, String fontName, int fontSize) { super(gc); setX(x); setY(y); this.text = text; font = new Font(fontName, fontSize); }
 	
 	public void setFont(Font font) { this.font = font; }
 	public void setText(String text) { this.text = text; }
@@ -43,7 +41,6 @@ public class TextObject extends CanvasObject {
 	public Font getFont() { return font; }
 	public String getText() { return text; }
 	public int getPointerPosition() { return pointerPosition; }
-	public GraphicsContext getGraphics() { return gc; }
 	
 	@Override
 	public void draw() {
@@ -100,18 +97,5 @@ public class TextObject extends CanvasObject {
 	private void setPointerPosition(int i) {
 		if(i <= text.length() && i >= 0)
 			pointerPosition = i;
-	}
-	
-	private void drawSelected(double posX, double posY, double width, double height) {
-		getGraphics().setStroke(Color.color(0.1, 0.40, 0.8));
-		getGraphics().strokeLine(posX, posY, posX + width, posY);
-		getGraphics().strokeLine(posX, posY, posX, posY + height);
-		getGraphics().strokeLine(posX + width, posY + height, posX, posY + height);
-		getGraphics().strokeLine(posX + width, posY + height, posX + width, posY);
-		getGraphics().setFill(Color.color(0.2, 0.6, 0.9));
-		getGraphics().fillArc(posX - 3, posY - 3, 6, 6, 0, 360, ArcType.ROUND);
-		getGraphics().fillArc(posX - 3, posY + height - 3, 6, 6, 0, 360, ArcType.ROUND);
-		getGraphics().fillArc(posX + width - 3, posY - 3, 6, 6, 0, 360, ArcType.ROUND);
-		getGraphics().fillArc(posX + width - 3, posY + height - 3, 6, 6, 0, 360, ArcType.ROUND);
 	}
 }

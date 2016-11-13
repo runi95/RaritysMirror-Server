@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 
 public class CanvasObject {
+	public final static double ARC_RADIUS = 6;
 	private double x, y, width, height, clickX, clickY;
 	private boolean selected;
 	private GraphicsContext gc;
@@ -45,9 +46,9 @@ public class CanvasObject {
 		getGraphics().strokeLine(posX + width, posY + height, posX, posY + height);
 		getGraphics().strokeLine(posX + width, posY + height, posX + width, posY);
 		getGraphics().setFill(Color.color(0.2, 0.6, 0.9));
-		getGraphics().fillArc(posX - 3, posY - 3, 6, 6, 0, 360, ArcType.ROUND);
-		getGraphics().fillArc(posX - 3, posY + height - 3, 6, 6, 0, 360, ArcType.ROUND);
-		getGraphics().fillArc(posX + width - 3, posY - 3, 6, 6, 0, 360, ArcType.ROUND);
-		getGraphics().fillArc(posX + width - 3, posY + height - 3, 6, 6, 0, 360, ArcType.ROUND);
+		getGraphics().fillArc(posX - 3, posY - 3, ARC_RADIUS, ARC_RADIUS, 0, 360, ArcType.ROUND);
+		getGraphics().fillArc(posX - 3, posY + height - 3, ARC_RADIUS, ARC_RADIUS, 0, 360, ArcType.ROUND);
+		getGraphics().fillArc(posX + width - 3, posY - 3, ARC_RADIUS, ARC_RADIUS, 0, 360, ArcType.ROUND);
+		getGraphics().fillArc(posX + width - 3, posY + height - 3, ARC_RADIUS, ARC_RADIUS, 0, 360, ArcType.ROUND);
 	}
 }

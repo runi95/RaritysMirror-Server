@@ -35,9 +35,10 @@ public class CustomCanvas extends Canvas {
 				if(selectedObject == null)
 					return;
 				
-				if(event.getCode() == KeyCode.DELETE)
+				if(event.getCode() == KeyCode.DELETE) {
 					currentSlide.getList().remove(selectedObject);
-				else
+					currentSlide.setSelected(null);
+				}else
 					selectedObject.keyPressed(event);
 				
 				event.consume();

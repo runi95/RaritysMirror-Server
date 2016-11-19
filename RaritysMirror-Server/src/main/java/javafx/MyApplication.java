@@ -35,7 +35,7 @@ public class MyApplication extends Application {
 			width = 1280;
 			height = 768;
 			
-			stage.setTitle("AnimeFTW");
+			stage.setTitle("Rarity's Mirror - Server");
 //			stage.getIcons().addAll(new Image("/server/ui/resources/images/ui/icon.png"), new Image("/server/ui/resources/images/ui/icon.icns"));
 		}
 		

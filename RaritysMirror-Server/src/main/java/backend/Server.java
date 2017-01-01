@@ -4,12 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class Server {
-	public static void main(String[] args) {
-		// TODO: Remove this test function once GUI is set up properly!
-		Server server = new Server();
-		server.start();
-	}
-	
 	// TODO: Simplify everything down to the simplest way possible.
 	// TODO: Add possibility for more advanced options afterwards.
 	// TODO: Server should be able to change the presentation live.

@@ -69,7 +69,7 @@ public class ServerThread extends Thread {
 			ci = new ClientInformation(request);
 		
 		if(response.equals("name") || response.equals("setName"))
-			if(request == null) {
+			if(request.equals("")) {
 				Message msg = new Message();
 				msg.setRequest("setName");
 				msg.setResponse("Screen #" + id);

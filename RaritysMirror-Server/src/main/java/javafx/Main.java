@@ -5,11 +5,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.view.Editor;
-import javafx.view.Startup;
+import javafx.view.ServerView;
 
 public class Main extends Application {
 	public static void main(String[] args) {
-		
+		Main.launch(args);
 	}
 	
 		private static int width, height;

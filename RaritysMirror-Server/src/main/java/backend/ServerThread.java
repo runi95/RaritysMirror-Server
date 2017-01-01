@@ -68,7 +68,7 @@ public class ServerThread extends Thread {
 		if(response.equals("version"))
 			ci = new ClientInformation(request);
 		
-		if(response.equals("name"))
+		if(response.equals("name") || response.equals("setName"))
 			if(request == null) {
 				Message msg = new Message();
 				msg.setRequest("setName");

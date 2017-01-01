@@ -20,11 +20,21 @@ public class Server {
 	
 	public void start() {
 		try (ServerSocket serverSocket = new ServerSocket(portNumber); ){
-			while(running)
-				new ServerThread(serverSocket.accept(), id++).start(); 
+			while(running) {
+				new ServerThread(serverSocket.accept(), getId()).start();
+				setId(getId() + 1);
+			}
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	synchronized static int getId() {
+		return id;
+	}
+	
+	synchronized static void setId(int id) {
+		Server.id = id;
 	}
 	
 }

@@ -24,6 +24,6 @@ public class Resources {
 		}
 
 		public static void main(String[] args) {
-			Application.launch(MyApplication.class, args);
+			Application.launch(Main.class, args);
 		}
 }

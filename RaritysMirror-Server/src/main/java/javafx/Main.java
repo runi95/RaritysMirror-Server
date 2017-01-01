@@ -4,10 +4,14 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.view.Editor;
 import javafx.view.Startup;
 
-public class MyApplication extends Application {
-
+public class Main extends Application {
+	public static void main(String[] args) {
+		
+	}
+	
 		private static int width, height;
 		private Scene scene;
 		private static StackPane root = new StackPane();
@@ -40,7 +44,7 @@ public class MyApplication extends Application {
 		}
 		
 		private void setStartScene(Stage stage) {
-			root.getChildren().add(new Startup());
+			root.getChildren().add(new Editor());
 			
 			scene = new Scene(root, width, height);
 //			scene.getStylesheets().add("javafx/view/fxml/css/style.css");

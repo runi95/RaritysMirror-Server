@@ -8,7 +8,7 @@
 
 <fx:root animated="false" collapsible="false" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Rarity's Mirror" type="javafx.scene.control.TitledPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <content>
-      <BorderPane prefHeight="200.0" prefWidth="200.0">
+      <BorderPane>
          <center>
             <VBox spacing="10.0" BorderPane.alignment="CENTER">
                <children>
@@ -50,7 +50,7 @@
                                           <Insets right="4.0" top="4.0" />
                                        </padding>
                                     </Label>
-                                    <TextField promptText="default: 10558" text="10558" />
+                                    <TextField promptText="default: 1995" text="1995" />
                                  </children>
                               </HBox>
                               <HBox>

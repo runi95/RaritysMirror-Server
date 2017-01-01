@@ -6,6 +6,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.view.Editor;
 import javafx.view.ServerView;
+import javafx.view.StartupView;
 
 public class Main extends Application {
 	public static void main(String[] args) {
@@ -36,8 +37,8 @@ public class Main extends Application {
 	}
 
 	private void startValues(Stage stage) {
-		width = 1280;
-		height = 768;
+		width = 700;
+		height = 500;
 
 		stage.setTitle("Rarity's Mirror - Server");
 		// stage.getIcons().addAll(new
@@ -46,7 +47,7 @@ public class Main extends Application {
 	}
 
 	private void setStartScene(Stage stage) {
-		root.getChildren().add(new Editor());
+		root.getChildren().add(new StartupView());
 
 		scene = new Scene(root, width, height);
 		// scene.getStylesheets().add("javafx/view/fxml/css/style.css");

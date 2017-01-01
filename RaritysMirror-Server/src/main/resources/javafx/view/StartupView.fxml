@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.view.*?>
+
+<fx:root type="javafx.scene.control.TabPane" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+  <tabs>
+    <Tab text="Server">
+      <content>
+        <fx:include source="ServerView.fxml"/>
+      </content>
+    </Tab>
+    <Tab text="Presentation">
+      <content>
+        <fx:include source="Editor.fxml"/>
+      </content>
+    </Tab>
+  </tabs>
+</fx:root>

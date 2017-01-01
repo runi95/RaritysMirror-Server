@@ -4,7 +4,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.Resources;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -50,10 +49,6 @@ public class Editor extends BorderPane implements Initializable {
 	ComboBox<String> fontComboBox;
 	@FXML
 	ComboBox<String> fontSizeComboBox;
-
-	public Editor() {
-		Resources.loadFXML(this);
-	}
 
 	public void initialize(URL location, ResourceBundle resources) {
 		// Initialize Table:

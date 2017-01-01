@@ -5,10 +5,6 @@ import javafx.scene.control.TitledPane;
 
 public class ServerView extends TitledPane {
 	
-	public ServerView() {
-		Resources.loadFXML(this);
-	}
-	
 	//On actions:
 	
 	public void openEditorClicked() {

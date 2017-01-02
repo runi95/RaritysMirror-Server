@@ -1,9 +1,8 @@
 package javafx.view;
 
-import javafx.Resources;
-import javafx.scene.control.TitledPane;
+import javafx.scene.layout.BorderPane;
 
-public class ServerView extends TitledPane {
+public class ServerView extends BorderPane {
 	
 	//On actions:
 	

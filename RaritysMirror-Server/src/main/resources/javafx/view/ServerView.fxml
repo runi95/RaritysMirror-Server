@@ -7,82 +7,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.view.ServerView?>
 
-<ServerView fx:controller="javafx.view.ServerView" animated="false"
-	collapsible="false" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity"
-	minWidth="-Infinity" text="Rarity's Mirror" xmlns="http://javafx.com/javafx/8"
+<ServerView fx:controller="javafx.view.ServerView" xmlns="http://javafx.com/javafx/8"
 	xmlns:fx="http://javafx.com/fxml/1">
-	<content>
-		<BorderPane>
-			<center>
-				<VBox spacing="10.0" BorderPane.alignment="CENTER">
+	<padding>
+		<Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+	</padding>
+	<center>
+		<HBox BorderPane.alignment="CENTER">
+			<children>
+				<VBox>
 					<children>
-						<HBox>
-							<children>
-								<Label text="Create New Presentation:">
-									<padding>
-										<Insets right="4.0" top="4.0" />
-									</padding>
-								</Label>
-								<Button mnemonicParsing="false" onAction="#openEditorClicked"
-									text="Open Editor" />
-							</children>
-						</HBox>
-						<TitledPane animated="false" collapsible="false" text="Server">
-							<content>
-								<VBox spacing="10.0">
-									<children>
-										<HBox>
-											<children>
-												<Label text="Load Presentation:">
-													<opaqueInsets>
-														<Insets />
-													</opaqueInsets>
-													<HBox.margin>
-														<Insets />
-													</HBox.margin>
-													<padding>
-														<Insets right="4.0" top="4.0" />
-													</padding>
-												</Label>
-												<TextField promptText="Select File..." />
-												<Button mnemonicParsing="false" onAction="#loadClicked"
-													text="..." />
-											</children>
-										</HBox>
-										<HBox>
-											<children>
-												<Label text="Port:">
-													<padding>
-														<Insets right="4.0" top="4.0" />
-													</padding>
-												</Label>
-												<TextField promptText="default: 1995" text="1995" />
-											</children>
-										</HBox>
-										<HBox>
-											<children>
-												<Label text="Localhost: ">
-													<padding>
-														<Insets right="4.0" top="2.0" />
-													</padding>
-												</Label>
-												<CheckBox mnemonicParsing="false" onAction="#localhostChecked" />
-												<Hyperlink text="?">
-													<padding>
-														<Insets bottom="2.0" />
-													</padding>
-												</Hyperlink>
-											</children>
-										</HBox>
-										<Button mnemonicParsing="false" onAction="#startServerClicked"
-											text="Start Server" />
-									</children>
-								</VBox>
-							</content>
-						</TitledPane>
+						<Label text="Port:">
+							<padding>
+								<Insets right="4.0" top="4.0" />
+							</padding>
+						</Label>
 					</children>
 				</VBox>
-			</center>
-		</BorderPane>
-	</content>
+				<VBox>
+					<children>
+						<TextField promptText="default: 1995" text="1995" />
+						<Button mnemonicParsing="false" onAction="#startServerClicked"
+							text="Start Server" />
+					</children>
+				</VBox>
+			</children>
+		</HBox>
+	</center>
 </ServerView>

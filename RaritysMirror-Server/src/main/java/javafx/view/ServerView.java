@@ -36,10 +36,10 @@ public class ServerView extends BorderPane {
 				if(checkPort(port))
 					return;
 				
-				Server.start(port);
+				model.getServer().start(port);
 				startStopServerButton.setText("Stop Server");
 			}else{
-				Server.stop();
+				model.getServer().stop();
 				startStopServerButton.setText("Start Server");
 			}
 				

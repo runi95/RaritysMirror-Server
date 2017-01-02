@@ -9,9 +9,9 @@ public class Server {
 	// TODO: Server should be able to change the presentation live.
 	
 	private static int id = 1;
-	private static boolean running;
+	private boolean running;
 	
-	public static void start(int portNumber) {
+	public void start(int portNumber) {
 		running = true;
 		
 		try (ServerSocket serverSocket = new ServerSocket(portNumber); ){
@@ -24,7 +24,7 @@ public class Server {
 		}
 	}
 	
-	public static void stop() {
+	public void stop() {
 		running = false;
 	}
 	

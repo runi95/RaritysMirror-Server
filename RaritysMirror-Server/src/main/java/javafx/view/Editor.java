@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.model.CanvasObject;
 import javafx.model.CanvasObjectList;
+import javafx.model.EditorModel;
+import javafx.model.ServerModel;
 import javafx.model.Slide;
 import javafx.model.TextObject;
 import javafx.scene.control.ComboBox;
@@ -29,10 +31,11 @@ import javafx.stage.FileChooser;
 public class Editor extends BorderPane implements Initializable {
 
 	public final static Image ADD_SLIDE_SELECTED = new Image("javafx/view/images/AddSlide-Selected.png"), ADD_SLIDE_UNSELECTED = new Image("javafx/view/images/AddSlide-Unselected.png"), REMOVE_SLIDE_SELECTED = new Image("javafx/view/images/RemoveSlide-Selected.png"), REMOVE_SLIDE_UNSELECTED = new Image("javafx/view/images/RemoveSlide-Unselected.png"), ADD_IMAGE_SELECTED = new Image("javafx/view/images/AddImage-Selected.png"), ADD_IMAGE_UNSELECTED = new Image("javafx/view/images/AddImage-Unselected.png"), ADD_TEXT_SELECTED = new Image("javafx/view/images/AddText-Selected.png"), ADD_TEXT_UNSELECTED = new Image("javafx/view/images/AddText-Unselected.png");
+	EditorModel model;
 	
-	ObservableList<Slide> slideList = FXCollections.observableArrayList();
-	ObservableList<String> fontList = FXCollections.observableArrayList();
-	ObservableList<String> fontSizeList = FXCollections.observableArrayList();
+	private ObservableList<Slide> slideList = FXCollections.observableArrayList();
+	private ObservableList<String> fontList = FXCollections.observableArrayList();
+	private ObservableList<String> fontSizeList = FXCollections.observableArrayList();
 
 	CanvasObjectList canvasList = new CanvasObjectList();
 //	CanvasObject selected = null;
@@ -183,5 +186,30 @@ public class Editor extends BorderPane implements Initializable {
 			fontSizeComboBox.setValue("20");
 			return 20;
 		}
+	}
+	
+	public void initModel(EditorModel model) {
+		if (this.model != null) {
+            throw new IllegalStateException("Model can only be initialized once");
+        }
+		
+		this.model = model;
+		
+		/*
+		model.getServerRunning().addListener((obs, oldSetting, newSetting) -> {
+			if(newSetting) {
+				int port = Integer.parseInt(portTextField.getText());
+				if(checkPort(port))
+					return;
+				
+				model.getServer().start(port);
+				startStopServerButton.setText("Stop Server");
+			}else{
+				model.getServer().stop();
+				startStopServerButton.setText("Start Server");
+			}
+				
+		});
+		*/
 	}
 }

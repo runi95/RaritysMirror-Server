@@ -8,11 +8,12 @@ public class Server {
 	// TODO: Add possibility for more advanced options afterwards.
 	// TODO: Server should be able to change the presentation live.
 	
-	public static final int portNumber = 1995;
 	private static int id = 1;
-	private boolean running = true;
+	private static boolean running;
 	
-	public void start() {
+	public static void start(int portNumber) {
+		running = true;
+		
 		try (ServerSocket serverSocket = new ServerSocket(portNumber); ){
 			while(running) {
 				new ServerThread(serverSocket.accept(), getId()).start();
@@ -21,6 +22,10 @@ public class Server {
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void stop() {
+		running = false;
 	}
 	
 	synchronized static int getId() {

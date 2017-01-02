@@ -26,8 +26,8 @@
 				</VBox>
 				<VBox>
 					<children>
-						<TextField promptText="default: 1995" text="1995" />
-						<Button mnemonicParsing="false" onAction="#startServerClicked"
+						<TextField fx:id="portTextField" promptText="default: 1995" text="1995" />
+						<Button fx:id="startStopServerButton" mnemonicParsing="false" onAction="#startServerClicked"
 							text="Start Server" />
 					</children>
 				</VBox>

@@ -1,15 +1,16 @@
 package javafx.model;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class CanvasObjectList {
 
-	private LinkedList<CanvasObject> list = new LinkedList<>();
+	private ObservableList<CanvasObject> list = FXCollections.observableList(new LinkedList<>());
 	private final ObjectProperty<CanvasObject> objectProperty = new SimpleObjectProperty<CanvasObject>(this, "selected", null);
 
 	public CanvasObjectList() {
@@ -32,13 +33,11 @@ public class CanvasObjectList {
 
 	public CanvasObject selectFirstInHitbox(double x, double y) {
 		CanvasObject ret = null;
-		Iterator<CanvasObject> iterator = list.descendingIterator();
-		
-		while(iterator.hasNext() && ret == null) {
-			CanvasObject c = iterator.next();
-			if(c.hitboxCheck(x, y))
-				ret = c;
-		}
+		for(int i = list.size() - 1; i >= 0; i--)
+			if(list.get(i).hitboxCheck(x,y)) {
+				ret = list.get(i);
+				break;
+			}
 		
 		deselectAllBut(ret);
 
@@ -56,7 +55,7 @@ public class CanvasObjectList {
 		objectProperty.setValue(selected);
 	}
 	
-	public LinkedList<CanvasObject> getList() {
+	public ObservableList<CanvasObject> getList() {
 		return list;
 	}
 }
